@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  alert-processor:
+    build: .
+    container_name: alert-email-processor
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./.env:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "python", "-m", "src.main", "--test"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Add a web dashboard (future enhancement)
+  # dashboard:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dashboard
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - alert-processor
+  #   volumes:
+  #     - ./data:/app/data:ro
+
+volumes:
+  alert_data:
+  alert_logs:
