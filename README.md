@@ -8,8 +8,6 @@ AlertIQ is an advanced email automation system that uses AI to intelligently pro
 
 - [🧪 **Testing Documentation**](TESTING.md) - Comprehensive test coverage report and API requirements
 - [🏗️ **System Architecture**](ARCHITECTURE.md) - Detailed system design, data flow, and component interactions
-- [⚙️ **Installation Guide**](#installation) - Step-by-step setup instructions
-- [🔧 **Configuration**](#configuration) - Environment variables and settings
 
 ## 🌟 Features
 
