@@ -4,149 +4,12 @@
 
 AlertIQ is an advanced email automation system that uses AI to intelligently process, analyze, and route alert emails to the appropriate teams. It leverages Google's Gemini AI for smart categorization and automated response generation.
 
-## 🏗️ System Architecture
+## 📚 Documentation
 
-### Architecture Overview
-
-```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                                AlertIQ System                                   │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                 │
-│  ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌─────────────────┐  │
-│  │   Gmail     │───▶│Email Reader  │───▶│ Processor   │───▶│   AI Analyzer   │  │
-│  │   Inbox     │    │(Gmail API)   │    │ (Scheduler) │    │  (Gemini AI)    │  │
-│  └─────────────┘    └──────────────┘    └─────────────┘    └─────────────────┘  │
-│                                                │                       │        │
-│                                                ▼                       ▼        │
-│  ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌─────────────────┐  │
-│  │   Team      │◀───│Email Sender  │◀───│  Database   │    │   Config        │  │
-│  │  Inboxes    │    │   (SMTP)     │    │   (CSV)     │    │ Management      │  │
-│  └─────────────┘    └──────────────┘    └─────────────┘    └─────────────────┘  │
-│                                                                                 │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Component Flow
-
-```
-📧 INCOMING EMAIL
-        │
-        ▼
-┌───────────────────┐
-│   Email Reader    │ ──── Authenticates with Gmail OAuth
-│   (Gmail API)     │ ──── Fetches unread emails
-└───────────────────┘ ──── Marks emails as processed
-        │
-        ▼
-┌───────────────────┐
-│    Processor      │ ──── Validates email format
-│   (Main Logic)    │ ──── Extracts relevant content
-└───────────────────┘ ──── Batch processing
-        │
-        ▼
-┌───────────────────┐
-│   AI Analyzer     │ ──── Sends email to Gemini AI
-│   (Gemini AI)     │ ──── Analyzes content & context
-└───────────────────┘ ──── Returns classification
-        │
-        ▼
-┌───────────────────┐
-│    Database       │ ──── Logs processed emails
-│     (CSV)         │ ──── Tracks routing decisions
-└───────────────────┘ ──── Maintains audit trail
-        │
-        ▼
-┌───────────────────┐
-│   Email Sender    │ ──── Routes to appropriate team
-│     (SMTP)        │ ──── Sends formatted alerts
-└───────────────────┘ ──── Provides status updates
-        │
-        ▼
-🎯 TEAM INBOXES
-   (Backend/Code/Rehit)
-```
-
-### Data Flow Architecture
-
-```
-INPUT → PROCESSING → ANALYSIS → ROUTING → OUTPUT
-
-┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│   Gmail     │──▶│ Validation  │──▶│ AI Analysis │──▶│   Team      │──▶│ Delivered   │
-│   Emails    │   │ & Parsing   │   │ & Category  │   │ Assignment  │   │   Alerts    │
-└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
-                         │                   │                   │
-                         ▼                   ▼                   ▼
-                  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-                  │   Logging   │   │  Confidence │   │   Audit     │
-                  │    & Audit  │   │   Scoring   │   │    Trail    │
-                  └─────────────┘   └─────────────┘   └─────────────┘
-```
-
-## 🔄 Processing Flow
-
-### 1. Email Collection Phase
-```python
-┌─ Scheduler starts processing cycle
-├─ Email Reader authenticates with Gmail API
-├─ Fetches unread emails from inbox
-├─ Filters alerts based on configured criteria
-└─ Queues emails for processing
-```
-
-### 2. Content Analysis Phase
-```python
-┌─ Email content extraction and cleaning
-├─ Subject line and body parsing
-├─ Metadata extraction (sender, timestamp, etc.)
-├─ Content preprocessing for AI analysis
-└─ Gemini AI classification request
-```
-
-### 3. AI Decision Phase
-```python
-┌─ Gemini AI analyzes email content
-├─ Determines alert category (backend/code/rehit)
-├─ Assigns confidence score
-├─ Generates routing recommendation
-└─ Returns structured classification result
-```
-
-### 4. Routing & Delivery Phase
-```python
-┌─ Team assignment based on AI classification
-├─ Email formatting for target team
-├─ SMTP delivery to appropriate inbox
-├─ Database logging of routing decision
-└─ Status update and monitoring
-```
-
-### Component Responsibilities
-
-| Component | Primary Function | Key Technologies |
-|-----------|------------------|------------------|
-| **Email Reader** | Gmail API integration, OAuth authentication | Google APIs, OAuth2 |
-| **Processor** | Main processing logic, batch handling | Python asyncio, scheduling |
-| **AI Analyzer** | Content analysis, classification | Google Gemini AI API |
-| **Email Sender** | SMTP delivery, team routing | smtplib, email formatting |
-| **Database** | Audit logging, processed email tracking | CSV, pandas |
-| **Scheduler** | Daemon mode, interval processing | APScheduler, threading |
-| **Config** | Environment management, settings | Pydantic, dotenv |
-
-### Integration Points
-
-#### External Services
-- **Gmail API**: Email reading and management
-- **Gemini AI API**: Content analysis and classification
-- **SMTP Servers**: Email delivery to teams
-- **File System**: Local data storage and logging
-
-#### Internal Interfaces
-- **Config → All Components**: Centralized configuration
-- **Database → Processor**: Audit trail and deduplication
-- **Scheduler → Processor**: Automated processing cycles
-- **Models → All Components**: Shared data structures
+- [🧪 **Testing Documentation**](TESTING.md) - Comprehensive test coverage report and API requirements
+- [🏗️ **System Architecture**](ARCHITECTURE.md) - Detailed system design, data flow, and component interactions
+- [⚙️ **Installation Guide**](#installation) - Step-by-step setup instructions
+- [🔧 **Configuration**](#configuration) - Environment variables and settings
 
 ## 🌟 Features
 
@@ -162,14 +25,14 @@ INPUT → PROCESSING → ANALYSIS → ROUTING → OUTPUT
 
 ## 📋 Prerequisites
 
-- Python 3.8+
+- Python 3.12+
 - UV package manager
 - Gmail account with API access
 - Google Cloud Console account (for Gemini AI API)
 
 ## 🛠️ Installation
 
-### 1. Install UV Package Manager
+### Step 1: Install UV Package Manager
 
 UV is a fast Python package installer and resolver. Install it using one of these methods:
 
@@ -183,228 +46,295 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-#### Using pip:
+#### Using pip (alternative):
 ```bash
 pip install uv
 ```
 
-### 2. Clone the Repository
+### Step 2: Clone and Setup Project
 
 ```bash
+# Clone the repository
 git clone <repository-url>
 cd AlertIQ
+
+# Create virtual environment and install dependencies
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install all dependencies
+uv pip install -e .
 ```
 
-### 3. Install Dependencies
+### Step 3: API Setup and Configuration
+
+#### 3.1 Google Gemini AI API Setup
+
+1. **Create Google Cloud Project:**
+   ```bash
+   # Visit: https://console.cloud.google.com/
+   # Create new project or select existing one
+   ```
+
+2. **Enable Gemini AI API:**
+   ```bash
+   # Navigate to: APIs & Services > Library
+   # Search for "Generative Language API"
+   # Click "Enable"
+   ```
+
+3. **Create API Key:**
+   ```bash
+   # Go to: APIs & Services > Credentials
+   # Click "Create Credentials" > "API Key"
+   # Copy the generated API key
+   ```
+
+#### 3.2 Gmail API Setup
+
+1. **Enable Gmail API:**
+   ```bash
+   # In same Google Cloud Console project
+   # APIs & Services > Library
+   # Search for "Gmail API" and enable it
+   ```
+
+2. **Create OAuth2 Credentials:**
+   ```bash
+   # APIs & Services > Credentials
+   # Create Credentials > OAuth 2.0 Client IDs
+   # Application type: Desktop application
+   # Download the JSON file
+   ```
+
+3. **Generate Refresh Token:**
+   ```python
+   # Use the OAuth2 playground or run the auth script
+   # https://developers.google.com/oauthplayground/
+   # Scope: https://www.googleapis.com/auth/gmail.readonly
+   ```
+
+#### 3.3 Environment Configuration
+
+Create a `.env` file in the project root:
 
 ```bash
-# Install all dependencies using UV
-uv sync
+# Copy the template
+cp .env.example .env
 
-# Or if you prefer using pip
-pip install -e .
+# Edit with your credentials
+nano .env
 ```
 
-## 🔐 API Configuration
+Add your API credentials:
 
-### Gmail API Setup
+```env
+# Gemini AI Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
 
-1. **Enable Gmail API**:
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project or select existing one
-   - Enable the Gmail API for your project
-   - Go to "Credentials" → "Create Credentials" → "OAuth 2.0 Client ID"
-   - Choose "Desktop application"
-   - Download the credentials JSON file
+# Gmail API Configuration
+GMAIL_CLIENT_ID=your_gmail_client_id_here
+GMAIL_CLIENT_SECRET=your_gmail_client_secret_here
+GMAIL_REFRESH_TOKEN=your_gmail_refresh_token_here
 
-2. **Get Refresh Token**:
-   - Use the OAuth playground or run the initial authentication flow
-   - Save the client ID, client secret, and refresh token
+# Email Configuration
+BACKEND_TEAM_EMAIL=backend-team@company.com
+CODE_TEAM_EMAIL=code-team@company.com
+REHIT_TEAM_EMAIL=rehit-team@company.com
 
-### Gemini AI API Setup
+# SMTP Configuration (for sending emails)
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your_smtp_username@gmail.com
+SMTP_PASSWORD=your_smtp_app_password
 
-1. **Get API Key**:
-   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Create a new API key for Gemini
-   - Copy the API key for configuration
+# Processing Configuration
+MAX_EMAILS_PER_BATCH=10
+PROCESSING_INTERVAL=300  # 5 minutes
+LOG_LEVEL=INFO
+```
 
-## ⚙️ Configuration
+### Step 4: Verify Installation
+
+```bash
+# Run basic tests (no API keys required)
+python -m pytest tests/ -v
+
+# Test configuration
+python -c "from src.config import config; print('Config loaded successfully')"
+
+# Test imports
+python -c "import src.main; print('All modules imported successfully')"
+```
+
+## 🔧 Configuration
 
 ### Environment Variables
 
-Create a `.env` file in the project root with the following configuration:
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `GEMINI_API_KEY` | Google Gemini AI API key | Yes | - |
+| `GMAIL_CLIENT_ID` | Gmail OAuth2 client ID | Yes | - |
+| `GMAIL_CLIENT_SECRET` | Gmail OAuth2 client secret | Yes | - |
+| `GMAIL_REFRESH_TOKEN` | Gmail OAuth2 refresh token | Yes | - |
+| `BACKEND_TEAM_EMAIL` | Backend team email address | Yes | - |
+| `CODE_TEAM_EMAIL` | Code team email address | Yes | - |
+| `REHIT_TEAM_EMAIL` | Rehit team email address | Yes | - |
+| `SMTP_SERVER` | SMTP server hostname | No | smtp.gmail.com |
+| `SMTP_PORT` | SMTP server port | No | 587 |
+| `SMTP_USERNAME` | SMTP username | Yes | - |
+| `SMTP_PASSWORD` | SMTP password/app password | Yes | - |
+| `MAX_EMAILS_PER_BATCH` | Max emails per processing batch | No | 10 |
+| `PROCESSING_INTERVAL` | Seconds between processing cycles | No | 300 |
+| `LOG_LEVEL` | Logging level (DEBUG/INFO/WARNING/ERROR) | No | INFO |
 
-```env
-# Gmail API Configuration
-GMAIL_CLIENT_ID=your_gmail_client_id
-GMAIL_CLIENT_SECRET=your_gmail_client_secret
-GMAIL_REFRESH_TOKEN=your_refresh_token
+### Team Configuration
 
-# Gemini AI Configuration
-GEMINI_API_KEY=your_gemini_api_key
+The system routes emails to three predefined teams based on AI classification:
 
-# SMTP Configuration (for sending emails)
-SMTP_USERNAME=your_email@gmail.com
-SMTP_PASSWORD=your_app_password
-
-# Team Email Addresses
-BACKEND_TEAM_EMAIL=backend-team@company.com
-CODE_TEAM_EMAIL=dev-team@company.com
-REHIT_TEAM_EMAIL=rehit-team@company.com
-
-# Optional Configuration
-LOG_LEVEL=INFO
-CHECK_INTERVAL_MINUTES=5
-MAX_EMAILS_PER_BATCH=10
-```
-
-### Gmail App Password
-
-For SMTP authentication, you'll need to generate an App Password:
-
-1. Go to your Google Account settings
-2. Navigate to Security → 2-Step Verification
-3. Generate an App Password for "Mail"
-4. Use this password as `SMTP_PASSWORD`
+- **Backend Team**: Infrastructure, database, and server issues
+- **Code Team**: Application bugs, code-related problems
+- **Rehit Team**: Temporary issues requiring retry/reprocessing
 
 ## 🚀 Usage
 
-### Command Line Interface
+### Basic Usage
 
 ```bash
-# Run once (process emails and exit)
+# Run once (process all unread emails)
 python -m src.main
 
-# Run as daemon (continuous monitoring)
-python -m src.main --mode daemon
+# Run in daemon mode (continuous processing)
+python -m src.main --daemon
 
-# Test mode (dry run without sending emails)
-python -m src.main --mode test
+# Test mode (dry run, no actual email sending)
+python -m src.main --test
 
-# View processing statistics
-python -m src.main --mode stats
+# Process specific number of emails
+python -m src.main --max-emails 5
 
-# Cleanup old logs and data
-python -m src.main --mode cleanup
-
-# Run with specific options
-python -m src.main --daemon --verbose
+# Custom processing interval (seconds)
+python -m src.main --daemon --interval 600
 ```
 
-### Docker Deployment
+### Docker Usage
 
 ```bash
-# Build the Docker image
+# Build the image
 docker build -t alertiq .
 
 # Run with environment file
 docker run --env-file .env alertiq
 
-# Run as daemon
-docker run -d --env-file .env --name alertiq-daemon alertiq --mode daemon
+# Run in daemon mode
+docker run -d --env-file .env alertiq --daemon
+
+# Using docker-compose
+docker-compose up -d
 ```
 
-### Using UV for Development
+### Advanced Usage
 
-```bash
-# Install in development mode
-uv pip install -e .
+```python
+# Programmatic usage
+from src.processor import EmailProcessor
+from src.config import config
 
-# Run with UV
-uv run python -m src.main
+processor = EmailProcessor()
 
-# Install additional development dependencies
-uv add --dev pytest black flake8 mypy
-```
+# Process emails once
+results = processor.process_emails()
 
-## 📁 Project Structure
-
-```
-AlertIQ/
-├── src/                    # Main source code
-│   ├── main.py            # Entry point and CLI
-│   ├── config.py          # Configuration management
-│   ├── email_reader.py    # Gmail API integration
-│   ├── email_sender.py    # SMTP email sending
-│   ├── llm_analyzer.py    # Gemini AI integration
-│   ├── processor.py       # Email processing logic
-│   ├── scheduler.py       # Task scheduling
-│   ├── database.py        # Data persistence
-│   └── models.py          # Data models
-├── tests/                 # Unit tests
-├── data/                  # Data storage
-├── logs/                  # Log files
-├── test_data/            # Test data
-├── pyproject.toml        # Project configuration
-├── Dockerfile           # Docker configuration
-├── docker-compose.yml   # Docker Compose setup
-└── README.md           # This file
-```
-
-## 🔍 Monitoring and Logs
-
-AlertIQ provides comprehensive logging:
-
-- **Log Location**: `logs/alert_processor.log`
-- **Log Levels**: DEBUG, INFO, WARNING, ERROR, CRITICAL
-- **Structured Logging**: JSON format for easy parsing
-- **Rotation**: Automatic log rotation to prevent disk space issues
-
-Monitor the system:
-
-```bash
-# Watch logs in real-time
-tail -f logs/alert_processor.log
-
-# Check processing statistics
-python -m src.main --mode stats
+# Process in daemon mode
+processor.run_daemon(interval=300)
 ```
 
 ## 🧪 Testing
 
-Run the test suite:
+The project includes comprehensive test coverage. See [TESTING.md](TESTING.md) for detailed information about:
+
+- ✅ **26 passing unit tests** (96.3% success rate)
+- 🔑 **Missing integration tests** that require API keys
+- 📊 **Test coverage analysis** and recommendations
+- 🚀 **Running different test suites**
+
+### Quick Test Commands
 
 ```bash
-# Using UV
-uv run pytest
+# Run all unit tests
+python -m pytest tests/ -v
 
-# Using pytest directly
-pytest tests/
+# Run tests with coverage
+python -m pytest tests/ --cov=src --cov-report=term-missing
 
-# Run with coverage
-pytest --cov=src tests/
+# Run specific test categories
+python -m pytest tests/test_models.py -v          # Data models
+python -m pytest tests/test_config.py -v         # Configuration
+python -m pytest tests/test_database.py -v       # Database operations
+python -m pytest tests/test_llm_analyzer.py -v   # AI analysis (mocked)
 ```
 
-## 🐛 Troubleshooting
+## 📝 Logging
 
-### Common Issues
+The system provides comprehensive logging:
 
-1. **Gmail API Authentication Errors**:
-   - Verify OAuth credentials are correct
-   - Ensure Gmail API is enabled in Google Cloud Console
-   - Check refresh token hasn't expired
+```bash
+# Log files location
+logs/
+├── alertiq.log          # Main application log
+├── email_processing.log # Email processing details
+├── ai_analysis.log      # AI classification logs
+└── error.log           # Error tracking
+```
 
-2. **Gemini AI API Errors**:
-   - Verify API key is valid and active
-   - Check API quotas and usage limits
-   - Ensure billing is enabled for the project
+### Log Levels
 
-3. **SMTP Errors**:
-   - Use App Password instead of regular password
-   - Enable 2-factor authentication
-   - Check firewall settings for SMTP ports
+- **DEBUG**: Detailed debugging information
+- **INFO**: General operational messages
+- **WARNING**: Important events that may need attention
+- **ERROR**: Error conditions that need immediate attention
 
-4. **Permission Errors**:
-   - Ensure proper file permissions for data/ and logs/ directories
-   - Check Docker volume mounting permissions
+## 🐳 Docker Support
 
-## 📈 Performance Tuning
+### Dockerfile
 
-- **Batch Size**: Adjust `MAX_EMAILS_PER_BATCH` for optimal performance
-- **Check Interval**: Modify `CHECK_INTERVAL_MINUTES` based on email volume
-- **Retry Logic**: Configure retry attempts and delays for reliability
-- **Logging Level**: Use INFO or WARNING in production for better performance
+The project includes a multi-stage Dockerfile for efficient containerization:
 
+```bash
+# Development build
+docker build --target development -t alertiq:dev .
+
+# Production build
+docker build --target production -t alertiq:prod .
+```
+
+### Docker Compose
+
+```yaml
+# docker-compose.yml included for easy deployment
+docker-compose up -d
+```
+
+## 🔍 Monitoring
+
+### Health Checks
+
+```bash
+# Check system status
+python -m src.main --health-check
+
+# View processing statistics
+python -c "from src.database import EmailDatabase; db = EmailDatabase(); print(db.get_processing_stats())"
+```
+
+### Metrics
+
+The system tracks:
+- Emails processed per hour/day
+- AI classification accuracy
+- Team routing distribution
+- Error rates and types
+- Processing latency
 ---
 
-**AlertIQ** - Making alert management intelligent and efficient! 🚨✨
+**Built with ❤️ using Python, Google Gemini AI, and modern development practices**
