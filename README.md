@@ -405,22 +405,6 @@ pytest --cov=src tests/
 - **Retry Logic**: Configure retry attempts and delays for reliability
 - **Logging Level**: Use INFO or WARNING in production for better performance
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Run the test suite
-6. Submit a pull request
-
-## 🆘 Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the troubleshooting section
-- Review the logs for detailed error information
-
 ---
 
 **AlertIQ** - Making alert management intelligent and efficient! 🚨✨
