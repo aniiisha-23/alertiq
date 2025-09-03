@@ -155,116 +155,76 @@ cython_debug/
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be added to the global gitignore or merged into this project gitignore.  For a PyCharm
-#  project, it is recommended to comment the following line or create a separate
-#  .gitignore for JetBrains IDEs.
+#  project, it is recommended to exclude the entire .idea directory, but if you want to
+#  keep some of your settings, please see:
+#  https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 .idea/
 
-# AlertIQ specific files
-# Logs and data files
-logs/
-data/
-test_logs/
-test_data/
+# VS Code
+.vscode/
 
-# Environment and configuration files
-.env
+# AlertIQ specific files
+# Environment configuration
 .env.local
 .env.production
-*.env
+.env.development
 
-# API Keys and credentials
-credentials.json
-token.json
-client_secret.json
-
-# Database files
-*.db
-*.sqlite
-*.sqlite3
-
-# CSV data files
-*.csv
+# Data and logs
+data/processed_emails.csv
+data/*.csv
+logs/*.log
+logs/alert_processor.log
+test_logs/
 
 # Temporary files
-*.tmp
-*.temp
 temp/
 tmp/
+*.tmp
 
-# OS specific files
-# macOS
+# Credentials and secrets
+credentials.json
+token.json
+*.key
+*.pem
+*.crt
+
+# OS generated files
 .DS_Store
-.AppleDouble
-.LSOverride
-
-# macOS thumbnails
+.DS_Store?
 ._*
-
-# macOS directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-Thumbs.db
-Thumbs.db:encryptable
+.Spotlight-V100
+.Trashes
 ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
-
-# Linux
-*~
-
-# Editor files
-# VSCode
-.vscode/
-*.code-workspace
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# Vim
-*.swp
-*.swo
-*~
-.netrwhist
-
-# Emacs
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
-auto-save-list
-tramp
-.\#*
+Thumbs.db
 
 # Docker
 .dockerignore
 
-# Email processing specific
-processed_emails.csv
-email_logs/
-alert_processor.log*
+# UV specific
+.uv/
+uv.lock
+
+# Email attachments and cache
+attachments/
+email_cache/
+*.eml
 
 # Backup files
 *.bak
 *.backup
-*.old
+*.orig
 
-# Archive files
-*.zip
-*.tar.gz
-*.rar
-*.7z
+# IDE and editor files
+*.swp
+*.swo
+*~
+
+# Coverage reports
+.coverage
+htmlcov/
+.tox/
+.coverage.*
+
+# Local configuration overrides
+local_config.py
+config_local.py
